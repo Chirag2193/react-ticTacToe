@@ -1,14 +1,14 @@
-import { useState } from 'react';
 import styles from './app.module.scss';
 import Square from './components/square/Square';
+import useLocalStorage from './utils/useLocalStorage';
 
 function App() {
     const { gameBoard } = styles;
 
-    const [ticTacToe, setTicTacToe] = useState({
+    const [ticTacToe, setTicTacToe] = useLocalStorage('tic-tac-toe', {
         squares: [Array(9).fill(null)],
         currentStep: 0
-    })
+    });
     
     const { squares, currentStep } = ticTacToe;
 
@@ -63,6 +63,13 @@ function App() {
         </>
     }
 
+    function restart() {
+        setTicTacToe({
+            currentStep: 0,
+            squares: [Array(9).fill(null)]
+        })
+    };
+
     return (
         <>
             <div className="status">
@@ -79,6 +86,7 @@ function App() {
                 <Square count={7} onClick={selectSquare} data={currentSquares} />
                 <Square count={8} onClick={selectSquare} data={currentSquares} />
             </div>
+            <button onClick={restart}>Restart Game!</button>
         </>
     );
 }
